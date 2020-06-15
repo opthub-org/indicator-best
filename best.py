@@ -14,7 +14,7 @@ def main():
     else:
         best = solutions_scored[-1]['score']
         score = min(y, best)
-    print(score)
+    print(json.dumps({'score': score}))
 
 
 if __name__ == '__main__':
