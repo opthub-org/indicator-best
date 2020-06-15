@@ -9,11 +9,11 @@ def main():
     solution_to_score = json.loads(sys.argv[1])
     solutions_scored = json.loads(sys.argv[2])
     y = solution_to_score['objective']
-    if len(solutions_scored) > 0:
+    if not solutions_scored:
+        score = y
+    else:
         best = solutions_scored[-1]['score']
         score = min(y, best)
-    else:
-        score = y
     print(score)
 
 
