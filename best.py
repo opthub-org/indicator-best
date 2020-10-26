@@ -6,8 +6,9 @@ import json
 import sys
 
 def main():
-    solution_to_score = json.loads(sys.argv[1])
-    solutions_scored = json.loads(sys.argv[2])
+    with open(sys.argv[1]) as f, open(sys.argv[2]) as g:
+        solution_to_score = json.load(f)
+        solutions_scored = json.load(g)
     y = solution_to_score['objective']
     if not solutions_scored:
         score = y
