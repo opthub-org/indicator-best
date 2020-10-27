@@ -5,15 +5,15 @@ import docker
 
 client = docker.from_env()
 c = client.containers.run(
-    image='best-fitness',
+    image='opthub/best-fitness',
     command=['vv'],
     stdin_open=True,
     detach=True,
 )
 s = c.attach_socket(params={'stdin': 1, 'stream': 1, 'stdout': 1, 'stderr': 1})
-x = input() + '\n'
+x = input('x> ') + '\n'
 print(x)
-xs = input() + '\n'
+xs = input('xs> ') + '\n'
 print(xs)
 s._sock.sendall((x + xs).encode('utf-8'))
 c.wait()
