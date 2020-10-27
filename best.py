@@ -10,31 +10,36 @@ _logger = logging.getLogger(__name__)
 
 
 def main():
-    verbosity = 0
-    if len(sys.argv) > 1:
-        for c in sys.argv[1]:
-            verbosity += -10 if c == 'v' else 10 if c == 'q' else 0
-    log_level = logging.WARNING + verbosity
-    logging.basicConfig(level=log_level)
-    _logger.debug('Start')
-    _logger.info('Log level is set to %d.', log_level)
+    try:
+        verbosity = 0
+        if len(sys.argv) > 1:
+            for c in sys.argv[1]:
+                verbosity += -10 if c == 'v' else 10 if c == 'q' else 0
+        log_level = logging.WARNING + verbosity
+        logging.basicConfig(level=log_level)
+        _logger.debug('Start')
+        _logger.info('Log level is set to %d.', log_level)
 
-    x = input()
-    _logger.debug('input_x = %s', x)
-    solution_to_score = json.loads(x)
-    _logger.debug('x = %s', x)
- 
-    xs = input()
-    _logger.debug('input_xs = %s', xs)
-    solutions_scored = json.loads(xs)
-    _logger.debug('xs = %s', xs)
+        x = input()
+        _logger.debug('input_x = %s', x)
+        solution_to_score = json.loads(x)
+        _logger.debug('x = %s', x)
+    
+        xs = input()
+        _logger.debug('input_xs = %s', xs)
+        solutions_scored = json.loads(xs)
+        _logger.debug('xs = %s', xs)
 
-    y = solution_to_score['objective']
-    if not solutions_scored:
-        score = y
-    else:
-        best = solutions_scored[-1]['score']
-        score = min(y, best)
+        y = solution_to_score['objective']
+        if not solutions_scored:
+            score = y
+        else:
+            best = solutions_scored[-1]['score']
+            score = min(y, best)
+    except Exception as e:
+        _logger.warning(e)
+        score = float('inf')
+
     print(json.dumps({'score': score}))
     _logger.debug('End')
 
