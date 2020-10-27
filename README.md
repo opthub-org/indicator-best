@@ -3,12 +3,12 @@ This scorer assigns the best fitness value found so far.
 
 ## Usage
 ```
-$ python best.py <(echo '{"objective": 1}') <(echo '[{"objective": 2}, {"objective": 3}]')
+$ echo -e '{"objective": 1}'\n[{"objective": 2}, {"objective": 3}]' | python best.py
 {"score": 1}
 ```
 
 ```
-$ python best.py <(echo '{"objective": 3}') <(echo '[{"objective": 1}, {"objective": 2}]')
+$ echo -e '{"objective": 3}'\n[{"objective": 1}, {"objective": 2}]' | python best.py
 {"score": 1}
 ```
 
