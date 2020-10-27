@@ -3,12 +3,32 @@
 Best fitness value.
 """
 import json
+import logging
 import sys
 
+_logger = logging.getLogger(__name__)
+
+
 def main():
-    with open(sys.argv[1]) as f, open(sys.argv[2]) as g:
-        solution_to_score = json.load(f)
-        solutions_scored = json.load(g)
+    verbosity = 0
+    if len(sys.argv) > 1:
+        for c in sys.argv[1]:
+            verbosity += -10 if c == 'v' else 10 if c == 'q' else 0
+    log_level = logging.WARNING + verbosity
+    logging.basicConfig(level=log_level)
+    _logger.debug('Start')
+    _logger.info('Log level is set to %d.', log_level)
+
+    x = input()
+    _logger.debug('input_x = %s', x)
+    solution_to_score = json.loads(x)
+    _logger.debug('x = %s', x)
+ 
+    xs = input()
+    _logger.debug('input_xs = %s', xs)
+    solutions_scored = json.loads(xs)
+    _logger.debug('xs = %s', xs)
+
     y = solution_to_score['objective']
     if not solutions_scored:
         score = y
@@ -16,6 +36,7 @@ def main():
         best = solutions_scored[-1]['score']
         score = min(y, best)
     print(json.dumps({'score': score}))
+    _logger.debug('End')
 
 
 if __name__ == '__main__':
