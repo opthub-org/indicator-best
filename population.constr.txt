@@ -1,2 +1,2 @@
 {"objective": 1, "constraint": [0, 0, -1]}
-[{"objective": 0, "constraint": [0, 1, 0], "score": inf}, {"objective": 3, "constraint": [-1, -1, 0], "score": 3}, {"objective": 2, "constraint": [0, 0, 0], "score": 2}]
+[{"objective": 0, "constraint": [0, 1, 0], "score": 1.7976931348623157e+308}, {"objective": 3, "constraint": [-1, -1, 0], "score": 3}, {"objective": 2, "constraint": [0, 0, 0], "score": 2}]

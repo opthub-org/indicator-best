@@ -6,6 +6,7 @@ Best fitness value.
 import json
 import logging
 from os import path
+from sys import float_info
 
 import click
 from jsonschema import validate, ValidationError
@@ -75,6 +76,7 @@ def load_config(ctx, value):
 
 
 @click.command(help='Best fitness value.')
+@click.option('-m', '--float-max', type=int, default=float_info.max, help='Be quieter.')
 @click.option('-q', '--quiet', count=True, help='Be quieter.')
 @click.option('-v', '--verbose', count=True, help='Be more verbose.')
 @click.option('-c', '--config',
@@ -82,7 +84,7 @@ def load_config(ctx, value):
               is_eager=True, callback=load_config, help='Configuration file.')
 @click.version_option('1.0.0')
 @click.pass_context
-def main(ctx, quiet, verbose, config):
+def main(ctx, float_max, quiet, verbose, config):
     verbosity = 10 * (quiet - verbose)
     log_level = logging.WARNING + verbosity
     logging.basicConfig(level=log_level)
@@ -100,7 +102,7 @@ def main(ctx, quiet, verbose, config):
     _logger.debug('xs = %s', xs)
     validate(solutions_scored, json.loads(solutions_scored_jsonschema))
 
-    y = solution_to_score['objective'] if np.all(np.array(solution_to_score.get('constraint', [])) <= 0) else float('inf')
+    y = solution_to_score['objective'] if np.all(np.array(solution_to_score.get('constraint', [])) <= 0) else float_max
     if not solutions_scored:
         score = y
     else:
