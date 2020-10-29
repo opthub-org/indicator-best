@@ -3,14 +3,9 @@ This scorer assigns the best fitness value found so far.
 
 ## Usage
 ```
-$ echo -e '{"objective": 1}'\n[{"objective": 2}, {"objective": 3}]' | python best.py
-{"score": 1}
-```
-
-```
-$ echo -e '{"objective": 3}'\n[{"objective": 1}, {"objective": 2}]' | python best.py
+$ python best.py < population.txt
 {"score": 1}
 ```
 
 ## Environmental Variables
-No variable.
+`BEST_FLOAT_MAX` defines the max value of score, which is used if all solutions are infeasible. Default to `sys.float_info.max`.
