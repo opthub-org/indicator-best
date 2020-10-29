@@ -1,4 +1,4 @@
-FROM python:3.9-slim
-COPY . /usr/src/app
-WORKDIR /usr/src/app
-ENTRYPOINT ["python", "best.py"]
+FROM clearlinux/numpy-mp:latest
+COPY . /bench
+RUN pip install -r requirements.txt
+ENTRYPOINT ["docker-entrypoint.sh", "./best.py"]
