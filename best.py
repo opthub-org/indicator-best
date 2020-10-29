@@ -102,7 +102,10 @@ def main(ctx, float_max, quiet, verbose, config):
     _logger.debug('xs = %s', xs)
     validate(solutions_scored, json.loads(solutions_scored_jsonschema))
 
-    y = solution_to_score['objective'] if np.all(np.array(solution_to_score.get('constraint', [])) <= 0) else float_max
+    if not s.get('constraint') or np.all(np.array(solution_to_score['constraint'])) <= 0:
+        y = solution_to_score['objective']
+    else:
+        y = float_max
     if not solutions_scored:
         score = y
     else:
