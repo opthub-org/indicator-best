@@ -75,6 +75,10 @@ def load_config(ctx, value):
     return ctx.default_map
 
 
+def feasible(s):
+    return not s.get('constraint') or np.all(np.array(s['constraint']) <= 0)
+
+
 @click.command(help='Best fitness value.')
 @click.option('-m', '--float-max', type=int, default=float_info.max, help='Be quieter.')
 @click.option('-q', '--quiet', count=True, help='Be quieter.')
@@ -102,7 +106,7 @@ def main(ctx, float_max, quiet, verbose, config):
     _logger.debug('xs = %s', xs)
     validate(solutions_scored, json.loads(solutions_scored_jsonschema))
 
-    if not s.get('constraint') or np.all(np.array(solution_to_score['constraint'])) <= 0:
+    if feasible(solution_to_score):
         y = solution_to_score['objective']
     else:
         y = float_max
@@ -118,7 +122,7 @@ def main(ctx, float_max, quiet, verbose, config):
 
 if __name__ == '__main__':
     try:
-        main(auto_envvar_prefix="BEST")  # pylint: disable=no-value-for-parameter
+        main(auto_envvar_prefix="BEST")  # pylint: disable=no-value-for-parameter,unexpected-keyword-arg
     except Exception as e:
         _logger.error(e)
         print(json.dumps({'score': None, 'error': str(e)}))
