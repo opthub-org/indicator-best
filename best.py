@@ -122,7 +122,7 @@ def main(ctx, float_max, quiet, verbose, config):
 
 if __name__ == '__main__':
     try:
-        main(auto_envvar_prefix="BEST")  # pylint: disable=no-value-for-parameter,unexpected-keyword-arg
+        main(auto_envvar_prefix='BEST')  # pylint: disable=no-value-for-parameter,unexpected-keyword-arg
     except Exception as e:
         _logger.error(e)
         print(json.dumps({'score': None, 'error': str(e)}))
