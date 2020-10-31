@@ -80,7 +80,7 @@ def feasible(s):
 
 
 @click.command(help='Best fitness value.')
-@click.option('-m', '--float-max', type=float, default=float_info.max, help='Be quieter.')
+@click.option('-m', '--float-max', type=float, default=float_info.max, help='Worst value.')
 @click.option('-q', '--quiet', count=True, help='Be quieter.')
 @click.option('-v', '--verbose', count=True, help='Be more verbose.')
 @click.option('-c', '--config',
