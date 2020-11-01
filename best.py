@@ -7,6 +7,7 @@ import json
 import logging
 from os import path
 from sys import float_info
+from traceback import format_exc
 
 import click
 from jsonschema import validate, ValidationError
@@ -124,5 +125,5 @@ if __name__ == '__main__':
     try:
         main(auto_envvar_prefix='BEST')  # pylint: disable=no-value-for-parameter,unexpected-keyword-arg
     except Exception as e:
-        _logger.error(e)
+        _logger.error(format_exc())
         print(json.dumps({'score': None, 'error': str(e)}))
