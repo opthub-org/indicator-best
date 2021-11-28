@@ -10,7 +10,7 @@ from sys import float_info
 from traceback import format_exc
 
 import click
-from jsonschema import validate, ValidationError
+from jsonschema import validate
 import numpy as np
 import yaml
 
@@ -24,17 +24,18 @@ solution_to_score_jsonschema = """{
   "type": "object",
   "properties": {
     "objective": {
-      "type": "number"
+      "type": ["number", "null"]
     },
     "constraint": {
       "OneOf": [
-        {"type": "number"},
-        {"type": "array", "minItems": 1, "items": {"type": "number"}}
+        {"type": ["number", "null"]},
+        {"type": "array", "minItems": 1, "items": {"type": ["number", "null"]}}
       ]
     }
   },
   "required": ["objective"]
 }"""
+
 solutions_scored_jsonschema = """{
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Solutions scored",
@@ -43,23 +44,21 @@ solutions_scored_jsonschema = """{
     "type": "object",
     "properties": {
       "objective": {
-        "type": "number"
+        "type": ["number", "null"]
       },
       "score": {
         "type": "number"
       },
       "constraint": {
         "OneOf": [
-          {"type": "number"},
-          {"type": "array", "minItems": 1, "items": {"type": "number"}}
+          {"type": ["number", "null"]},
+          {"type": "array", "minItems": 1, "items": {"type": ["number", "null"]}}
         ]
       }
     },
     "required": ["objective", "score"]
   }
 }"""
-
-
 
 
 def load_config(ctx, value):
@@ -77,7 +76,9 @@ def load_config(ctx, value):
 
 
 def feasible(s):
-    return not s.get('constraint') or np.all(np.array(s['constraint']) <= 0)
+    o = s.get('objective')
+    c = s.get('constraint')
+    return (isinstance(o, float) or isinstance(o, int)) and (c is None or np.all(np.array(c) <= 0))
 
 
 @click.command(help='Best fitness value.')
