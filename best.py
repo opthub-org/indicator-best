@@ -29,11 +29,10 @@ solution_to_score_jsonschema = """{
     "constraint": {
       "OneOf": [
         {"type": ["number", "null"]},
-        {"type": "array", "minItems": 1, "items": {"type": ["number", "null"]}}
+        {"type": "array", "minItems": 1, "items": {"type": "number"}}
       ]
     }
-  },
-  "required": ["objective"]
+  }
 }"""
 
 solutions_scored_jsonschema = """{
@@ -52,19 +51,20 @@ solutions_scored_jsonschema = """{
       "constraint": {
         "OneOf": [
           {"type": ["number", "null"]},
-          {"type": "array", "minItems": 1, "items": {"type": ["number", "null"]}}
+          {"type": "array", "minItems": 1, "items": {"type": "number"}}
         ]
       }
     },
-    "required": ["objective", "score"]
+    "required": ["score"]
   }
 }"""
 
 
-def load_config(ctx, value):
+def load_config(ctx, self, value):
     """Load `ctx.default_map` from a file.
 
     :param ctx: Click context
+    :param self: Self object
     :param value: File name
     :return dict: Loaded config
     """
@@ -78,7 +78,7 @@ def load_config(ctx, value):
 def feasible(s):
     o = s.get('objective')
     c = s.get('constraint')
-    return (isinstance(o, float) or isinstance(o, int)) and (c is None or np.all(np.array(c) <= 0))
+    return (isinstance(o, float) or isinstance(o, int)) and (c is None or np.all(np.array(c) <= 0.0))
 
 
 @click.command(help='Best fitness value.')
