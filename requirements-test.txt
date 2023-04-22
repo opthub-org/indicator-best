@@ -1,1 +1,2 @@
-docker = 4.0
+-r requirements.txt
+docker >= 4.0
